@@ -174,8 +174,9 @@ private:
 };
 
 class AdditionsDirectDisplaySurface : public OVR::IDirectDisplaySurface {
+  OVR_REF_COUNTED_IMPLEMENTATION
+
 private:
-  std::atomic<int> RefCount = {1};
   AdditionsDirectDisplayRenderer* Renderer;
   HANDLE SurfaceHandle;
 
@@ -186,16 +187,6 @@ public:
   }
   virtual ~AdditionsDirectDisplaySurface() {
     delete Renderer;
-  }
-
-  void AddRef() {
-    RefCount.fetch_add(1, std::memory_order_relaxed);
-  }
-
-  void Release() {
-    if (RefCount.fetch_add(-1, std::memory_order_relaxed) - 1 == 0) {
-      delete this;
-    }
   }
 
   void* QueryInterface(uint64_t iid) {
@@ -211,23 +202,14 @@ public:
 };
 
 class AdditionsDirectDisplay : public OVR::IDirectDisplay {
+  OVR_REF_COUNTED_IMPLEMENTATION
+
 private:
-  std::atomic<int> RefCount = {1};
   AdditionsDirectDisplaySurface* Surface = nullptr;
   ovrRational RefreshRate = {};
 
 public:
   virtual ~AdditionsDirectDisplay() {}
-
-  void AddRef() {
-    RefCount.fetch_add(1, std::memory_order_relaxed);
-  }
-
-  void Release() {
-    if (RefCount.fetch_add(-1, std::memory_order_relaxed) - 1 == 0) {
-      delete this;
-    }
-  }
 
   void* QueryInterface(uint64_t iid) {
     if (iid == OVR::IID_IDirectDisplay || iid - 1 <= 1) {
@@ -323,8 +305,9 @@ public:
 };
 
 class AdditionsDirectDisplayAPI : public OVR::IDirectDisplayAPI {
+  OVR_REF_COUNTED_IMPLEMENTATION
+
 private:
-  std::atomic<int> RefCount = {1};
   std::queue<AdditionsDirectDisplay*> AttachedDisplays;
 
 public:
@@ -332,16 +315,6 @@ public:
     AttachedDisplays.push(new AdditionsDirectDisplay); // TODO...
   }
   virtual ~AdditionsDirectDisplayAPI() {}
-
-  void AddRef() {
-    RefCount.fetch_add(1, std::memory_order_relaxed);
-  }
-
-  void Release() {
-    if (RefCount.fetch_add(-1, std::memory_order_relaxed) - 1 == 0) {
-      delete this;
-    }
-  }
 
   void* QueryInterface(uint64_t iid) {
     if (iid == OVR::IID_IDirectDisplayAPI || iid - 1 <= 1) {

@@ -2,12 +2,26 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdio>
+#include <atomic>
 
 #if defined(_WIN32)
 #define OVR_EXPORT extern "C" __declspec(dllexport)
 #else
 #error "Unsupported Platform."
 #endif
+
+#define OVR_REF_COUNTED_IMPLEMENTATION \
+  private: \
+    std::atomic<int> RefCount = {1}; \
+  public: \
+    void AddRef() { \
+      RefCount.fetch_add(1, std::memory_order_relaxed); \
+    } \
+    void Release() { \
+      if (RefCount.fetch_add(-1, std::memory_order_relaxed) - 1 == 0) { \
+        delete this; \
+      } \
+    }
 
 typedef struct ovrSizei_ {
   int w, h;
@@ -139,7 +153,7 @@ public:
 
 namespace OVR {
 
-static const uint64_t IID_IDirectDisplaySurface = 0xAD7152FE3248D8C6;
+static const uint64_t IID_IDirectDisplaySurface = 0xAD7152FE3248D8C4;
 static const uint64_t IID_IDirectDisplay = 0xAD7152FE3248D8C6;
 static const uint64_t IID_IDirectDisplayAPI = 0xAD7152FE3248D8C8;
 
