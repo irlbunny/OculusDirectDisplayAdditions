@@ -3,6 +3,9 @@
 
 This is only works for ***tethered*** Oculus headsets, such as the Rift S or CV1. It is useless for PCs (usually desktops and certain laptops) which have the HDMI/DisplayPort port wired to the NVIDIA GPU, or headsets which use Quest Link or Air Link.
 
+# Notes
+As this project largely consists of code that was reverse-engineered by myself over the span of a month (basically), there could be issues that can break OVRServer into a state which *could* require a system restart. I am not responsible for any hardware or system damage caused by this project, although it is very unlikely to cause any damage to either at all.
+
 # How does this work?
 As it turns out, OVRServer will actually check for 3rd-party DirectDisplay implementations on startup, as long as `HKEY_LOCAL_MACHINE\SOFTWARE\Oculus\DirectDisplayDLL` is a path to a DLL library which contains a few exports, etc. This is an undocumented feature in OVRServer.
 
