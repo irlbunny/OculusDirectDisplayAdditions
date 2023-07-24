@@ -3,8 +3,8 @@
 
 This is only works for ***tethered*** Oculus headsets, such as the Rift S or CV1. It is useless for PCs (usually desktops and certain laptops) which have the HDMI/DisplayPort port wired to the NVIDIA GPU, or headsets which use Quest Link or Air Link.
 
-# Where are builds at?
-Support me on [Patreon](https://patreon.com/join/itskaitlyn03) to get access to release builds of this project (for the time being), the source code is provided as a courtesy and you will not obtain support from me if you build it yourself and run into issues.
+# Where are releases at?
+Support me on [Patreon](https://patreon.com/join/itskaitlyn03) to get early access to releases of this project (for the time being), the source code is provided as a courtesy and you will not obtain support from me if you build it yourself and run into issues.
 
 Once this project is ready for public consumption, this barrier will be lifted.
 
